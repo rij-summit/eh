@@ -13,42 +13,47 @@ body {
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #ff4e8a, #ff9ecf);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     color: white;
 }
 
-h1 {
-    font-size: 26px;
-    padding: 20px;
-}
-
-.buttons {
-    display: flex;
-    gap: 20px;
+.container {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-button {
+h1 {
+    position: absolute;
+    top: 30px;
+    width: 100%;
+    font-size: 26px;
+    margin: 0;
+}
+
+#yesBtn, #noBtn {
+    position: absolute;
     padding: 15px 30px;
     font-size: 18px;
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 #yesBtn {
     background-color: #ff2e63;
     color: white;
+    left: 25%;
+    top: 55%;
 }
 
 #noBtn {
     background-color: #333;
     color: white;
-    position: absolute;
+    left: 55%;
+    top: 55%;
 }
 
 .message {
@@ -87,10 +92,8 @@ button {
 </head>
 
 <body>
-
-<h1 id="question">Do you love me?</h1>
-
-<div class="buttons">
+<div class="container">
+    <h1 id="question">Do you love me?</h1>
     <button id="yesBtn">Yes ❤️</button>
     <button id="noBtn">No 💔</button>
 </div>
@@ -127,8 +130,8 @@ function moveButton() {
     noBtn.style.top = y + "px";
 }
 
-noBtn.addEventListener("mouseover", moveButton);
 noBtn.addEventListener("touchstart", moveButton);
+noBtn.addEventListener("mouseover", moveButton);
 
 noBtn.addEventListener("click", function() {
     noCount++;
@@ -137,47 +140,4 @@ noBtn.addEventListener("click", function() {
     }
 });
 
-yesBtn.addEventListener("click", function() {
-    document.body.innerHTML = `<div class="message">I knew it 😌</div>`;
-    
-    setTimeout(() => {
-        document.body.innerHTML = `
-            <div class="message">
-                ❤️ Happy Valentine's Day ❤️ <br><br>
-                I love you 💕
-            </div>
-        `;
-        createHearts();
-        createConfetti();
-    }, 1500);
-});
-
-function createHearts() {
-    setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.bottom = "0px";
-        document.body.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 4000);
-    }, 300);
-}
-
-function createConfetti() {
-    for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement("div");
-        confetti.classList.add("confetti");
-        confetti.style.left = Math.random() * window.innerWidth + "px";
-        confetti.style.backgroundColor =
-            `hsl(${Math.random() * 360}, 100%, 50%)`;
-        document.body.appendChild(confetti);
-
-        setTimeout(() => confetti.remove(), 3000);
-    }
-}
-</script>
-
-</body>
-</html>
+yesBtn.addEventListener("click", function(
