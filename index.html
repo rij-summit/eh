@@ -6,173 +6,165 @@
 <title>Do You Love Me? ❤️</title>
 
 <style>
-  body {
+body {
     margin: 0;
     height: 100vh;
     overflow: hidden;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #ff4e8a, #ff9ecf);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     color: white;
-  }
+}
 
-  #question {
-    position: absolute;
-    top: 30px;
-    width: 100%;
+h1 {
     font-size: 26px;
-  }
+    padding: 20px;
+}
 
-  #yesBtn, #noBtn {
-    position: absolute;
+.buttons {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    flex-wrap: wrap; /* allows buttons to stack on small screens */
+    justify-content: center;
+}
+
+button {
     padding: 15px 30px;
     font-size: 18px;
     border: none;
     border-radius: 12px;
     cursor: pointer;
     transition: 0.2s;
-  }
+    max-width: 90vw; /* prevent overflow on small screens */
+}
 
-  #yesBtn {
+#yesBtn {
     background-color: #ff2e63;
     color: white;
-    left: 20%;
-    top: 60%;
-  }
+}
 
-  #noBtn {
+#noBtn {
     background-color: #333;
     color: white;
-    left: 60%;
-    top: 60%;
-  }
+    position: absolute;
+}
 
-  .message {
+.message {
     font-size: 30px;
     animation: fadeIn 1s ease forwards;
-  }
+}
 
-  @keyframes fadeIn {
+@keyframes fadeIn {
     from { opacity: 0; transform: scale(0.8); }
     to { opacity: 1; transform: scale(1); }
-  }
+}
 
-  .heart {
+.heart {
     position: absolute;
     font-size: 24px;
     animation: floatUp 4s linear infinite;
-  }
+}
 
-  @keyframes floatUp {
+@keyframes floatUp {
     0% { transform: translateY(0); opacity: 1; }
     100% { transform: translateY(-100vh); opacity: 0; }
-  }
+}
 
-  .confetti {
+.confetti {
     position: absolute;
     width: 8px;
     height: 8px;
     animation: fall 3s linear forwards;
-  }
+}
 
-  @keyframes fall {
+@keyframes fall {
     0% { transform: translateY(-100px) rotate(0deg); }
     100% { transform: translateY(100vh) rotate(720deg); }
-  }
+}
 </style>
 </head>
 
 <body>
-  <div id="question">Do you love me?</div>
-  <button id="yesBtn">Yes ❤️</button>
-  <button id="noBtn">No 💔</button>
 
-  <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
-    const question = document.getElementById("question");
+<h1 id="question">Do you love me?</h1>
 
-    let noCount = 0;
+<div class="buttons">
+    <button id="yesBtn">Yes ❤️</button>
+    <button id="noBtn">No 💔</button>
+</div>
 
-    function moveButton() {
-      const yesRect = yesBtn.getBoundingClientRect();
-      const btnW = noBtn.offsetWidth;
-      const btnH = noBtn.offsetHeight;
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const question = document.getElementById("question");
 
-      const maxX = window.innerWidth - btnW;
-      const maxY = window.innerHeight - btnH;
+let noCount = 0;
 
-      let x, y;
+// Random teleport for No button
+function moveButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth - 20; // padding
+    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
-      do {
-        x = Math.random() * maxX;
-        y = Math.random() * maxY;
-      } while (
-        x < yesRect.right &&
-        x + btnW > yesRect.left &&
-        y < yesRect.bottom &&
-        y + btnH > yesRect.top
-      );
+    noBtn.style.left = Math.max(10, Math.random() * maxX) + "px";
+    noBtn.style.top = Math.max(10, Math.random() * maxY) + "px";
+}
 
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    }
+noBtn.addEventListener("mouseover", moveButton);
+noBtn.addEventListener("touchstart", moveButton);
 
-    // Works on phone & desktop
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      moveButton();
-    });
-
-    noBtn.addEventListener("mouseover", moveButton);
-
-    noBtn.addEventListener("click", () => {
-      noCount++;
-      if (noCount >= 7) {
+noBtn.addEventListener("click", function() {
+    noCount++;
+    if (noCount >= 7) {
         question.innerHTML = "Why no!!? You love me :>";
-      }
-    });
+    }
+});
 
-    yesBtn.addEventListener("click", () => {
-      document.body.innerHTML = `<div class="message">I knew it 😌</div>`;
-
-      setTimeout(() => {
+yesBtn.addEventListener("click", function() {
+    document.body.innerHTML = `<div class="message">I knew it 😌</div>`;
+    
+    setTimeout(() => {
         document.body.innerHTML = `
-          <div class="message">
-            ❤️ Happy Valentine's Day ❤️ <br><br>
-            I love you 💕
-          </div>
+            <div class="message">
+                ❤️ Happy Valentine's Day my bebesaurrr❤️ <br><br>
+                I love you 💕
+            </div>
         `;
         createHearts();
         createConfetti();
-      }, 1500);
-    });
+    }, 1500);
+});
 
-    function createHearts() {
-      setInterval(() => {
+function createHearts() {
+    setInterval(() => {
         const heart = document.createElement("div");
         heart.classList.add("heart");
         heart.innerHTML = "❤️";
         heart.style.left = Math.random() * window.innerWidth + "px";
         heart.style.bottom = "0px";
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 4000);
-      }, 300);
-    }
 
-    function createConfetti() {
-      for (let i = 0; i < 100; i++) {
+        setTimeout(() => heart.remove(), 4000);
+    }, 300);
+}
+
+function createConfetti() {
+    for (let i = 0; i < 100; i++) {
         const confetti = document.createElement("div");
         confetti.classList.add("confetti");
         confetti.style.left = Math.random() * window.innerWidth + "px";
-        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confetti.style.backgroundColor =
+            `hsl(${Math.random() * 360}, 100%, 50%)`;
         document.body.appendChild(confetti);
+
         setTimeout(() => confetti.remove(), 3000);
-      }
     }
-  </script>
+}
+</script>
+
 </body>
 </html>
